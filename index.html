@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <title>Minesweeper-style Game</title>
+</head>
+<body>
+    <div id="outerContainer">
+        <div id="container">
+        </div>  
+        <div id="generateSection">
+            <form>
+                <label for="x">Number of tiles wide</label>
+                <br>
+                <input class="box" type="number" name="x" id="x" min="1" required />
+                <br>
+                <label for="y">Number of tiles tall</label>
+                <br>
+                <input class="box" type="number" name="y" id="y" min="1" required />
+                <br>
+                <label for="percent">Choose mine percentage (default 15%)</label>
+                <br>
+                <input class="box" type="number" name="percent" id="percent" min="1" max="99" value="15"/>
+                <br>
+                <input type="button" value="Generate grid" id="submit"/>
+            </form>
+        </div>
+    </div>
+    <script src="./scripts/script.js"></script>  
+</body>
+</html>
