@@ -1,27 +1,11 @@
 const submitButton = document.getElementById("submit");
-const xInputField = document.getElementById("x");
-const yInputField = document.getElementById("y");
+const columnInputField = document.getElementById("column");
+const rowInputField = document.getElementById("row");
 const percentageInputField = document.getElementById("percent");
+const gridContainer = document.getElementById("container");
 
-//put more stuff in classes
-
-const generateGrid = (x, y) => {
-    let container = document.getElementById("container");
-    let containerHTML = "";
-    let tilesTotal = x * y;
-
-    container.style.gridTemplateColumns = `repeat(${x}, 30px)`;
-    container.style.gridTemplateRows = `repeat(${y}, 30px)`;
-
-    for (let tilesAdded = 0 ; tilesAdded <  tilesTotal ; tilesAdded++) {
-        containerHTML += `<div id=tile${tilesAdded + 1} class="tile"></div>`;
-    }
-
-    container.innerHTML = containerHTML;   
-};
-
-const chooseMines = (numOfTiles, minePercentage) => {
-    const numOfMines = Math.ceil(numOfTiles * minePercentage);
+const chooseMines = (numOfTiles, percentage) => {
+    const numOfMines = Math.ceil(numOfTiles * percentage);
     const chosenMines = new Set();
 
     while (chosenMines.size < numOfMines) {
@@ -41,33 +25,118 @@ class Tile {
     }
 };
 
-const createTileArray = (numOfTiles, mineSet, numOfRows, numOfColumns) => {
-    const arrayOfTiles = [];
-    const arrayOfMines = [];
-
-    let tileNum = 1;
-    while (tileNum < numOfTiles) {
-        for (let rowNum = 1 ; rowNum <= numOfRows ; rowNum++) {
-            currentRow = [];
-            for (let colNum = 1; colNum <= numOfColumns ; colNum++) {
-                const mine = mineSet.has(tileNum);
-                const newTile = new Tile(tileNum, mine, rowNum, colNum);
-                if (mine) {
-                    arrayOfMines.push(newTile)
-                }
-                currentRow.push(newTile);
-                tileNum += 1;
-            }
-            arrayOfTiles.push(currentRow);
-        }
-    }  
-
-    for (const mine of arrayOfMines) {
-        markAdjacentTiles(mine, arrayOfTiles);
+class Grid {
+    constructor(rows, columns, rowHeight, columnWidth) {
+        this._rows = rows;
+        this._columns = columns;
+        this._rowHeight = rowHeight;
+        this._columnWidth = columnWidth; 
+        this._totalTiles = rows * columns;   
     }
 
-    return arrayOfTiles;
-};
+    createGrid(container) {
+        container.style.gridTemplateRows = `repeat(${this._rows}, ${this._rowHeight})`;    
+        container.style.gridTemplateColumns = `repeat(${this._columns}, ${this._columnWidth})`; 
+
+        const divIdArray = []; 
+        let html = "";
+        for (let divsAdded = 0 ; divsAdded <  this._totalTiles ; divsAdded++) {
+            const divId = `tile${divsAdded+1}`
+            const div = `<div id=${divId} class="tile"></div>`;
+            divIdArray.push(divId);
+            html += div;
+        }
+
+        this._gridHTML = html;
+        this._divIdArray = divIdArray;
+        container.innerHTML = html;
+    }
+
+    generateMinesweeperTiles(minePercentage) {
+        const tileArray = [];
+        const mineArray = [];     
+        const nonMineArray = [];
+        const mineSet = chooseMines(this._totalTiles, minePercentage);
+        
+        let tileNum = 1;
+        while (tileNum < this._totalTiles) {
+            for (let rowNum = 1 ; rowNum <= this._rows ; rowNum++) {
+                const currentRow = [];
+                for (let colNum = 1; colNum <= this._columns ; colNum++) {
+                    const hasMine = mineSet.has(tileNum);
+                    const newTile = new Tile(tileNum, hasMine, rowNum, colNum);
+
+                    if (hasMine) {
+                        mineArray.push(newTile);
+                    }
+                    else {
+                        nonMineArray.push(newTile);
+                    }
+                    currentRow.push(newTile);
+                    tileNum += 1;
+                }
+                tileArray.push(currentRow);
+            }
+        }
+        for (const mine of mineArray) {
+            markAdjacentTiles(mine, tileArray);
+        }
+        this._tileArray = tileArray;
+        this._mineArray =  mineArray;
+        this._nonMineArray = nonMineArray;
+        
+        return tileArray;
+    }
+// integrate into tile creation
+    linkDivsToTiles() {
+        i = 0
+        for (const row of this._tileArray) {
+            for (const tile of row) {
+                tile._divId = this._divIdArray[i];
+                i++
+            }
+        }
+    }
+    
+    
+    /*
+    
+    {
+
+        //dont nest, do simultaneously?
+        const flatTileArray = this._tileArray.flat(); 
+        for (let i = 0 ; i < this._divIdArray.length ; i++) {
+            this._tileArray
+
+            flatTileArray[i]._divId = flatTileArray[i]
+        }
+
+        for (const row of this._tileArray) {
+
+            for (const tile of row) {
+                for (let i = 0 ; i < this._divIdArray.length ; i++){
+                    for (const tile of row) {
+                        tile._divId = this._divIdArray[i];  
+                    }
+                
+                } 
+            }
+        }
+    }
+    */
+    addContentToTiles(contentToAdd, tileArray) {
+        for (const tile of tileArray) {
+            document.getElementById(tile._divId).innerHTML += contentToAdd;
+        }
+    }
+}
+
+
+
+
+
+
+
 
 
 const markAdjacentTiles = (mine, tileArray) => {
@@ -103,32 +172,25 @@ const markAdjacentTiles = (mine, tileArray) => {
     }
 };
 
-const addTileContent = tileArray => {
-    for (const row of tileArray) {
-        for (const tile of row) {
-            if (tile._mine) {
-                document.getElementById(tile._name).innerHTML = "X";
-            }
-            else {
-                if (tile._adjacentMines) {
-                    document.getElementById(tile._name).innerHTML = tile._adjacentMines;
-                }
-            }
-        }
-    }
-}
+
 
 const generateFromInput = () => {
-    let xInput = xInputField.value; 
-    let yInput = yInputField.value;
-    let tilesTotal = xInput * yInput;
+    let columnInput = columnInputField.value; 
+    let rowInput = rowInputField.value;
+    let tilesTotal = columnInput * rowInput;
     let percentageInput = percentageInputField.value / 100;
 
-    generateGrid(xInput, yInput);
-    addTileContent(createTileArray(tilesTotal, chooseMines(tilesTotal, percentageInput), yInput, xInput));
+    const newGrid = new Grid(rowInput, columnInput, "30px", "30px");
+    newGrid.createGrid(gridContainer);
+    newGrid.generateMinesweeperTiles(percentageInput);
+    newGrid.linkDivsToTiles();
+    newGrid.addContentToTiles("X", newGrid._mineArray);
+    for (const tile of newGrid._nonMineArray) {
+        if (tile._adjacentMines) {
+            newGrid.addContentToTiles(tile._adjacentMines, [tile]);
+        }
+    }
 };
 
+
 submitButton.addEventListener("click", generateFromInput);
-
-
-// other shapes of grid?
