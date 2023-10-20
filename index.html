@@ -1,101 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./styles/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Jura:wght@500;600;700&display=swap" rel="stylesheet">
-        <title>Mine Hunter</title>
-    </head>
-    <body>
-        <div id="outerContainer">
-            <div id="navbarOuter">
-                <div id="navbar">
-                    <div id="icon">
-                        <p>M</p><img src="./images/mine.png" />
-                        <p>H</p>
-                    </div>
-                    <div class="navItem highlight" id="gridMenu">
-                        <p>New Game</p>
-                        <div id="gridDropdown">
-                            <button id="smallButton" class="highlight">Small Grid<br>8 x 8</button>
-                            <button id="mediumButton" class="highlight">Medium Grid<br>16 x 16</button>
-                            <button id="largeButton" class="highlight">Large Grid<br>20 x 24</button>
-                            <button id="customButton" class="highlight">Create<br>Custom Grid</button>
-                        </div>
-                    </div>
-                    <a href="#instructionsDiv" id="instructionsButton" class="navItem highlight">
-                        <div>
-                            <p>Instructions</p>
-                        </div>
-                    </a>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Mine Hunter</title>
+</head>
+
+<body>
+    <div class="page">
+        <div class="nav-container">
+            <div class="nav">
+                <div class="logo">
+                    <p>M</p><img src="./images/mine.png" />
+                    <p>H</p>
                 </div>
-            </div>
-            <div class="heading">
-                <h1>
-                    <img src="./images/mine.png" />Mine Hunter<img src="./images/mine.png" />
-                </h1>
-            </div>
-            <div id="gridContainer" class="hidden"></div>
-            <div id="result"></div>
-            <div id="instructionsDiv">
-                <ul>
-                    <li>Reveal every safe tile to win.</li>
-                    <li>Avoid the mines!</li>
-                    <li>Left-click to reveal a tile.</li>
-                    <li>Right-click to flag a tile if you suspect there is a mine on it. If you change your mind left-click
-                        the tile to uncover it.</li>
-                    <li>If the tile shows a number then it is the number of mines that are on adjacent tiles(horizontally,
-                        vertically and diagonally)</li>
-                    <li>Mine percentage is 14% by default but you can change this, as well as grid size, in a custom game.
-                    </li>
-                    <li>Choose an option from the "New Game" dropdown to begin!</li>
-                    <li>Good luck!</li>
-                </ul>
-            </div>
-            <div id="outerCustomSection" class="hidden">
-                <div id="midCustomSection">
-                    <div id="customBorder">
-                        <form id="innerCustomSection">
-                            <div id="closeButton"><button id="close">X</button></div>
-                            <div class="col1"><label for="row">Rows:</label></div>
-                            <div class="col2"><input class="box" type="number" name="row" id="row" min="1" required /></div>
-                            <div class="col1"><label for="column">Columns:</label></div>
-                            <div class="col2"><input class="box" type="number" name="column" id="column" min="1" required />
-                            </div>
-                            <div class="col1"><label for="percent">Mines:</label></div>
-                            <div class="col2"><input class="box" type="number" name="percent" id="percent" min="1" max="99"
-                                    value="14" /></div>
-                            <div id="percentageSign">%</div>
-                            <div class="col123"><input type="submit" id="submit" class="clickableButton" value="Generate" />
-                            </div>
-                        </form>
+                <div class="nav-item highlight" id="gridMenu">
+                    <p>New Game</p>
+                    <div id="gridDropdown">
+                        <button id="smallButton" class="highlight">Small Grid<br>8 x 8</button>
+                        <button id="mediumButton" class="highlight">Medium Grid<br>16 x 16</button>
+                        <button id="largeButton" class="highlight">Large Grid<br>20 x 24</button>
+                        <button id="customButton" class="highlight">Create<br>Custom Grid</button>
                     </div>
                 </div>
+                <a href="#instructions" id="instructionsButton" class="nav-item highlight">
+                    <div>
+                        <p>Instructions</p>
+                    </div>
+                </a>
             </div>
-            <footer>
-                <a href="https://www.freepik.com/icon/explode_7445281#fromView=search&term=bomb&page=1&position=85&track=ais&track=ais">
-                    Explosion Icon by Umeicon
-                </a>
-                <a href="https://www.freepik.com/icon/flag_1244600#fromView=search&term=pointed+red+flag&page=2&position=31&track=ais&track=ais">
-                    Flag Icon by srip
-                </a>
-                <a href="https://www.freepik.com/free-vector/seamless-green-grass-pattern_13187581.htm#query=square%20green%20carpet&position=11&from_view=search&track=ais">
-                    Grass Image by macrovector
-                </a>
-                <a href="https://www.freepik.com/free-vector/earth-texture_997013.htm#query=square%20soil&position=4&from_view=search&track=ais">
-                    Soil Image by 0melapics
-                </a>
-                <a href="https://www.freepik.com/free-photo/old-cement-wall-texture_920589.htm#query=grey%20texture&position=1&from_view=keyword&track=ais">
-                    Options Background by asierromero
-                </a>
-                <a href="http://www.rw-designer.com/cursor-detail/191341">
-                    Cursor by rw-designer.com
-                </a>
-            </footer>
         </div>
-        <script src="./scripts/script.js"></script>
-    </body>
+        <div class="heading">
+            <h1>
+                <img src="./images/mine.png" />Mine Hunter<img src="./images/mine.png" />
+            </h1>
+        </div>
+        <div id="grid" class="hidden"></div>
+        <div id="result"></div>
+        <div id="instructions">
+            <ul>
+                <li>Reveal every safe tile to win.</li>
+                <li>Avoid the mines!</li>
+                <li>Left-click to reveal a tile.</li>
+                <li>Right-click to flag a tile if you suspect there is a mine on it. If you change your mind left-click
+                    the tile to uncover it.</li>
+                <li>If the tile shows a number then it is the number of mines that are on adjacent tiles(horizontally,
+                    vertically and diagonally)</li>
+                <li>Mine percentage is 14% by default but you can change this, as well as grid size, in a custom game.
+                </li>
+                <li>Choose an option from the "New Game" dropdown to begin!</li>
+                <li>Good luck!</li>
+            </ul>
+        </div>
+        <div id="outerCustomSection" class="hidden">
+            <div id="midCustomSection">
+                <div id="customBorder">
+                    <form id="innerCustomSection">
+                        <div id="closeButton"><button id="close">X</button></div>
+                        <div class="label"><label for="row">Rows:</label></div>
+                        <div class="input"><input class="box" type="number" name="row" id="row" min="1" required />
+                        </div>
+                        <div class="label"><label for="column">Columns:</label></div>
+                        <div class="input"><input class="box" type="number" name="column" id="column" min="1"
+                                required /></div>
+                        <div class="label"><label for="percent">Mines:</label></div>
+                        <div class="input"><input class="box" type="number" name="percent" id="percent" min="1" max="99"
+                                value="14" /></div>
+                        <div class="input-unit">%</div>
+                        <div class="col123"><input type="submit" id="submit" class="clickableButton" value="Generate" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <a
+                href="https://www.freepik.com/icon/explode_7445281#fromView=search&term=bomb&page=1&position=85&track=ais&track=ais">
+                Explosion Icon by Umeicon
+            </a>
+            <a
+                href="https://www.freepik.com/icon/flag_1244600#fromView=search&term=pointed+red+flag&page=2&position=31&track=ais&track=ais">
+                Flag Icon by srip
+            </a>
+            <a
+                href="https://www.freepik.com/free-vector/seamless-green-grass-pattern_13187581.htm#query=square%20green%20carpet&position=11&from_view=search&track=ais">
+                Grass Image by macrovector
+            </a>
+            <a
+                href="https://www.freepik.com/free-vector/earth-texture_997013.htm#query=square%20soil&position=4&from_view=search&track=ais">
+                Soil Image by 0melapics
+            </a>
+            <a
+                href="https://www.freepik.com/free-photo/old-cement-wall-texture_920589.htm#query=grey%20texture&position=1&from_view=keyword&track=ais">
+                Options Background by asierromero
+            </a>
+            <a href="http://www.rw-designer.com/cursor-detail/191341">
+                Cursor by rw-designer.com
+            </a>
+        </footer>
+    </div>
+    <script src="./scripts/script.js"></script>
+</body>
+
 </html>

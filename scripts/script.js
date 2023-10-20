@@ -1,7 +1,7 @@
 const columnInputField = document.getElementById("column");
 const rowInputField = document.getElementById("row");
 const percentageInputField = document.getElementById("percent");
-const gridContainer = document.getElementById("gridContainer");
+const gridContainer = document.getElementById("grid");
 const resultDiv = document.getElementById("result");
 
 gridContainer.addEventListener("contextmenu", e => e.preventDefault());
@@ -200,9 +200,7 @@ class MinesweeperGrid extends Grid {
     }
 
     checkIfCompleted() {
-        console.log(this._revealedTiles, this._nonMineArray.length);
         if (this._revealedTiles >= this._nonMineArray.length) {
-            console.log("you win!")
             resultDiv.innerHTML = "You win!<br><button class='clickableButton' id='button'>Play Again?</button>";
             document.getElementById('button').addEventListener("click", replay);
             gridContainer.style.pointerEvents = "none";
@@ -240,21 +238,15 @@ const generateDefault = (event) => {
     gridContainer.style.pointerEvents = "auto";
     let rowInput;
     let columnInput;
-    switch (event.target.id) {
-        case "smallButton":
-            rowInput = 8;
-            columnInput = 8;
-            break;
-        case "mediumButton":
-            rowInput = 16;
-            columnInput = 16;
-            break;
-        case "largeButton":
-            rowInput = 20;
-            columnInput = 24;
-            break;
-        default:
-            break;
+    if (event.target.id === "smallButton") {
+        rowInput = 8;
+        columnInput = 8;    
+    } else if (event.target.id === "mediumButton") {
+        rowInput = 16;
+        columnInput = 16;    
+    } else if (event.target.id === "largeButton") {
+        rowInput = 20;
+        columnInput = 24;    
     }
 
     const minesweeperGrid = new MinesweeperGrid(gridContainer, rowInput, columnInput, "30px", "30px", 0.14);
